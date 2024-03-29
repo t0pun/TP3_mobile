@@ -1,12 +1,23 @@
 package com.example.tp3_mobile
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.opengl.Visibility
 import android.os.Bundle
+import android.os.Environment
+import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.File
+import java.io.FileWriter
+import java.io.IOException
 
 class RecapActivity : AppCompatActivity() {
     @SuppressLint("MissingInflatedId")
@@ -29,6 +40,7 @@ class RecapActivity : AppCompatActivity() {
         val textViewPasSynchro: TextView = findViewById(R.id.textViewPasSynchro)
 
         val boutonRetour: Button = findViewById(R.id.button)
+        val boutonValider: Button = findViewById(R.id.buttonValider)
 
 
 
@@ -42,27 +54,93 @@ class RecapActivity : AppCompatActivity() {
         val lecture = intent.getStringExtra("lecture")
         val programmation = intent.getStringExtra("programmation")
         val synchro = intent.getStringExtra("synchronisation")
-        val PasSynchro = intent.getStringExtra("pasSynchronise")
+        val pasSynchro = intent.getStringExtra("pasSynchronise")
 
 
 
-        Toast.makeText(this, nom, Toast.LENGTH_SHORT).show()
 
         textView1.text = nom
         textView2.text = prenom
         textView3.text = naissance
         textView4.text = numero
         textView5.text = mail
-        textViewSport.text = sport
-        textViewMusique.text = musique
-        textViewLecture.text = lecture
-        textViewProgrammation.text = programmation
-        textViewSynchro.text = synchro
-        textViewPasSynchro.text = PasSynchro
+        if(sport!=null) {
+            textViewSport.visibility = View.VISIBLE
+            textViewSport.text = sport
+        }
+        if(musique!=null){
+            textViewMusique.visibility = View.VISIBLE
+            textViewMusique.text = musique
+        }
+        if(lecture!=null){
+            textViewLecture.visibility = View.VISIBLE
+            textViewLecture.text = lecture
+        }
+        if(programmation!=null){
+            textViewProgrammation.visibility = View.VISIBLE
+            textViewProgrammation.text = programmation
+        }
+        if(synchro!=null){
+            textViewSynchro.visibility = View.VISIBLE
+            textViewSynchro.text = synchro
+        }
+        if(pasSynchro!=null){
+            textViewPasSynchro.visibility = View.VISIBLE
+            textViewPasSynchro.text = pasSynchro
+        }
+
+
+        boutonValider.setOnClickListener{
+            val donnees= "Prenom: $prenom\nNom: $nom\nDate de naissance: $naissance\nNumero de téléphone: $numero\nEmail: $mail\nSport: $sport\nMusique: $musique\nLecture: $lecture\nProgrammation: $programmation\nSynchronisation: $synchro\nPas de synchronisation: $pasSynchro"
+            val donneesJson= JSONObject()
+            donneesJson.put("prenom", prenom)
+            donneesJson.put("nom", nom)
+            donneesJson.put("naissance", naissance)
+            donneesJson.put("numero", numero)
+            donneesJson.put("mail", mail)
+            donneesJson.put("sport", sport)
+            donneesJson.put("musique", musique)
+            donneesJson.put("lecture", lecture)
+            donneesJson.put("programmation", programmation)
+            donneesJson.put("synchro", synchro)
+            donneesJson.put("pasSynchro", pasSynchro)
+
+
+            val context: Context = applicationContext
+            val fileName ="fichier.txt"
+            val fileName2 ="info.json"
+            try {
+                val file = File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), fileName)
+                val fileWriter = FileWriter(file)
+                fileWriter.write(donnees)
+                fileWriter.close()
+
+                val file2 = File(context.getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS), fileName2)
+                val gson = Gson()
+                val jsonData = gson.toJson(donneesJson)
+                val fileWriter2 = FileWriter(file2)
+                fileWriter2.write(jsonData)
+                fileWriter2.close()
+
+
+                Log.d("FileCreation", "Fichier créé avec succès : $fileName")
+                Log.d("FileCreation", "Fichier JSON créé avec succès : $fileName2")
+            } catch (e: IOException) {
+                Log.e("FileCreation", "Échec de la création du fichier : $fileName", e)
+                Log.e("FileCreation", "Échec de la création du fichier JSON : $fileName2", e)
+
+            }
+
+
+        }
+
+
 
         boutonRetour.setOnClickListener{
             finish()
         }
+
+
 
     }
 

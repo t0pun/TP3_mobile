@@ -1,20 +1,17 @@
 package com.example.tp3_mobile
 
-import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.Button
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import android.widget.ToggleButton
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.google.android.material.textfield.TextInputLayout
 import java.util.Calendar
-import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +35,65 @@ class MainActivity : AppCompatActivity() {
         val telephoneLayout: TextInputLayout = findViewById(R.id.textInputLayoutTelephone)
         val mailLayout: TextInputLayout = findViewById(R.id.textInputLayoutAdresseMail)
 
+
+
+        naissance.addTextChangedListener(object : TextWatcher {
+            private var current = ""
+            private val ddmmyyyy = "DDMMYYYY"
+            private val cal = Calendar.getInstance()
+
+
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                if (s.toString() != current) {
+                    var clean = s.toString().replace("[^\\d.]".toRegex(), "")
+                    val cleanC = current.replace("[^\\d.]".toRegex(), "")
+                    val cl = clean.length
+                    var sel = cl
+                    var i = 2
+                    while (i <= cl && i < 6) {
+                        sel++
+                        i += 2
+                    }
+                    //Fix for pressing delete next to a forward slash
+                    if (clean == cleanC) sel--
+                    if (clean.length < 8) {
+                        clean = clean + ddmmyyyy.substring(clean.length)
+                    } else {
+                        //This part makes sure that when we finish entering numbers
+                        //the date is correct, fixing it otherwise
+                        var day = clean.substring(0, 2).toInt()
+                        var mon = clean.substring(2, 4).toInt()
+                        var year = clean.substring(4, 8).toInt()
+                        if (mon > 12) mon = 12
+                        cal[Calendar.MONTH] = mon - 1
+                        year = if (year < 1900) 1900 else if (year > 2008) 2008 else year
+                        cal[Calendar.YEAR] = year
+                        // ^ first set year for the line below to work correctly
+                        //with leap years - otherwise, date e.g. 29/02/2012
+                        //would be automatically corrected to 28/02/2012
+                        day = if (day > cal.getActualMaximum(Calendar.DATE)) cal.getActualMaximum(
+                            Calendar.DATE
+                        ) else day
+                        clean = String.format("%02d%02d%02d", day, mon, year)
+                    }
+                    clean = String.format(
+                        "%s/%s/%s", clean.substring(0, 2),
+                        clean.substring(2, 4),
+                        clean.substring(4, 8)
+                    )
+                    sel = if (sel < 0) 0 else sel
+                    current = clean
+                    naissance.setText(current)
+                    naissance.setSelection(if (sel < current.length) sel else current.length)
+                }
+            }
+
+
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+
         submit.setOnClickListener {
 
 
@@ -47,9 +103,6 @@ class MainActivity : AppCompatActivity() {
             val numero_text  = numero.text.toString()
             val mail_text = mail.text.toString()
 
-            Toast.makeText(this, nom_text, Toast.LENGTH_SHORT).show()
-
-            //SSval isSynchro = synchro.isChecked()
 
             val intent = Intent(this, RecapActivity::class.java)
 
@@ -58,31 +111,6 @@ class MainActivity : AppCompatActivity() {
             }
             if (prenom_text.isEmpty() || prenom_text.contains(Regex("\\d"))) {
                 prenomLayout.error = "le champ saisi contient une erreur"
-            }
-            //faire quelque chose pour la date de naissance
-            naissance.setOnClickListener {
-                val calendar = Calendar.getInstance()
-                val year = calendar.get(Calendar.YEAR)
-                val month = calendar.get(Calendar.MONTH)
-                val day = calendar.get(Calendar.DAY_OF_MONTH)
-
-                val datePickerDialog = DatePickerDialog(
-                    this,
-                    { view, selectedYear, selectedMonth, selectedDay ->
-                        val formattedDate = String.format(
-                            Locale.getDefault(),
-                            "%02d/%02d/%04d",
-                            selectedDay,
-                            selectedMonth + 1,
-                            selectedYear
-                        )
-                        naissance.setText(formattedDate)
-                    },
-                    year,
-                    month,
-                    day
-                )
-                datePickerDialog.show()
             }
             val phoneNumberPattern = Regex("^(0|\\+33|0033)[1-9][1-9][0-9]{8}$")
             if (numero_text.isEmpty() || numero_text.matches(phoneNumberPattern)) {
@@ -115,6 +143,14 @@ class MainActivity : AppCompatActivity() {
             }else{
                 intent.putExtra("pasSynchronise", "pas synchronisé")
             }
+            naissance.text?.clear()
+            numero.text?.clear()
+            mail.text?.clear()
+            sport.isChecked = false
+            musique.isChecked = false
+            lecture.isChecked = false
+            programmation.isChecked = false
+            synchro.isChecked = false
 
             startActivity(intent)
 
