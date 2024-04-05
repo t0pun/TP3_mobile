@@ -18,7 +18,7 @@
             android:padding="0dp"
             android:text="Récapitulatif"
             android:textAlignment="center"
-            android:textSize="30sp"
+            android:textSize="35sp"
             android:gravity="center_vertical"
             tools:ignore="RtlCompat" />
 
@@ -26,6 +26,8 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="25dp"
             tools:layout_editor_absoluteX="137dp"
             tools:layout_editor_absoluteY="58dp"
             tools:ignore="MissingConstraints" />
@@ -34,7 +36,8 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="25dp"
             tools:layout_editor_absoluteX="53dp"
             tools:layout_editor_absoluteY="75dp" />
 
@@ -42,7 +45,8 @@
             android:id="@+id/textView3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="25dp"
             tools:layout_editor_absoluteX="64dp"
             tools:layout_editor_absoluteY="134dp" />
 
@@ -50,7 +54,8 @@
             android:id="@+id/textView4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="25dp"
             tools:layout_editor_absoluteX="36dp"
             tools:layout_editor_absoluteY="174dp" />
 
@@ -58,7 +63,8 @@
             android:id="@+id/textView5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="25dp"
             tools:layout_editor_absoluteX="50dp"
             tools:layout_editor_absoluteY="221dp" />
 
@@ -66,7 +72,8 @@
             android:id="@+id/textViewSport"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="25dp"
             android:visibility="gone"
             tools:layout_editor_absoluteX="64dp"
             tools:layout_editor_absoluteY="134dp" />
@@ -75,7 +82,8 @@
             android:id="@+id/textViewMusique"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="25dp"
             android:visibility="gone"
             tools:layout_editor_absoluteX="36dp"
             tools:layout_editor_absoluteY="174dp" />
@@ -84,7 +92,8 @@
             android:id="@+id/textViewlecture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="25dp"
             android:visibility="gone"
             tools:layout_editor_absoluteX="64dp"
             tools:layout_editor_absoluteY="134dp" />
@@ -93,7 +102,8 @@
             android:id="@+id/textViewProgrammation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="25dp"
             android:visibility="gone"
             tools:layout_editor_absoluteX="36dp"
             tools:layout_editor_absoluteY="174dp" />
@@ -102,7 +112,8 @@
             android:id="@+id/textViewSynchro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="25dp"
             android:visibility="gone"
             tools:layout_editor_absoluteX="36dp"
             tools:layout_editor_absoluteY="174dp" />
@@ -111,31 +122,39 @@
             android:id="@+id/textViewPasSynchro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:textAlignment="center"
+            android:textSize="25dp"
             android:visibility="gone"
             tools:layout_editor_absoluteX="36dp"
             tools:layout_editor_absoluteY="174dp" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom">
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="bottom"
-            android:text="Retour"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="681dp" />
+            <Button
+                android:id="@+id/button"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="Retour"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="681dp" />
 
-        <Button
-            android:id="@+id/buttonValider"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="bottom"
-            android:text="Validez"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="681dp" />
+            <Button
+                android:id="@+id/buttonValider"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:text="Validez"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="681dp" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
