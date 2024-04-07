@@ -39,9 +39,10 @@ class RecapActivity : AppCompatActivity() {
         val textViewSynchro: TextView = findViewById(R.id.textViewSynchro)
         val textViewPasSynchro: TextView = findViewById(R.id.textViewPasSynchro)
 
+
         val boutonRetour: Button = findViewById(R.id.button)
         val boutonValider: Button = findViewById(R.id.buttonValider)
-
+        val boutonTelecharger: Button = findViewById(R.id.telecharger)
 
 
         val nom = intent.getStringExtra("nom")
@@ -119,7 +120,7 @@ class RecapActivity : AppCompatActivity() {
                 val gson = Gson()
                 val jsonData = gson.toJson(donneesJson)
                 val fileWriter2 = FileWriter(file2)
-                fileWriter2.write(jsonData)
+                    fileWriter2.write(jsonData)
                 fileWriter2.close()
 
 
@@ -138,6 +139,10 @@ class RecapActivity : AppCompatActivity() {
 
         boutonRetour.setOnClickListener{
             finish()
+        }
+
+        boutonTelecharger.setOnClickListener{
+
         }
 
 
